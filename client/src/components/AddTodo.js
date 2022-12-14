@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import './styles/AddTodo.scss'
+import { useState, useEffect, useRef } from 'react';
+import './styles/AddTodo.scss';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const AddTodo = ({ addItem }) => {
   // 사용자 입력을 저장할 객체
@@ -25,6 +27,11 @@ const AddTodo = ({ addItem }) => {
         onButtonClick();
     }
   }
+  const inputFocus = useRef(null);
+
+  useEffect(() => {
+    inputFocus.current.focus();
+  }); //첫렌더링시 오토포커스...그냥 속성에 autoFocus 쓰는게 나음
 
   return (
     <>
@@ -37,8 +44,10 @@ const AddTodo = ({ addItem }) => {
       value={todoItem.title}
       onChange={(e) => setTodoItem({title: e.target.value})}
       onKeyPress={onEnterKeyPress}
+      ref={inputFocus}
+      autoFocus
       />
-      <button onClick={onButtonClick}>add</button>
+      <button onClick={onButtonClick}><FontAwesomeIcon icon={faPlus} /></button>
     </div>
     </>
   );

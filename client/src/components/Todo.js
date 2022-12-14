@@ -1,5 +1,8 @@
-import { useState } from 'react';
-import './styles/Todo.scss'
+import { useState, useRef } from 'react';
+import './styles/Todo.scss';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+
 
 const Todo = ({ item, deleteItem }) => {
   // console.log(item); // { id: 1, title: 'todo1', done: false, }
@@ -64,7 +67,7 @@ const Todo = ({ item, deleteItem }) => {
         onKeyPress={enterKeyEventHandler}
         readOnly={readOnly}
       />
-      <button onClick={onDeleteBtnClick}>X</button>
+      <button onClick={onDeleteBtnClick}><FontAwesomeIcon icon={faTrashCan} /></button>
     </div>
   );
 };
