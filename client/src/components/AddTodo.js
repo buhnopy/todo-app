@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './styles/AddTodo.scss'
 
 const AddTodo = ({ addItem }) => {
   // 사용자 입력을 저장할 객체
@@ -8,9 +9,14 @@ const AddTodo = ({ addItem }) => {
   });
 
   const onButtonClick = () => {
-    // props로 받아온 addItem 함수 실행
-    addItem(todoItem); // {title: 'input입력값}
-    setTodoItem({title: ''}); // input초기화
+    if (todoItem.title.trim() === '') {
+      alert('값을 입력해주세요');
+    } else {
+      // props로 받아온 addItem 함수 실행
+      addItem(todoItem); // {title: 'input입력값}
+      setTodoItem({title: ''}); // input초기화
+
+    }
   };
 
   // Enter키 입력시 아이템 추가
@@ -21,16 +27,20 @@ const AddTodo = ({ addItem }) => {
   }
 
   return (
+    <>
+    {/* <h1 className='title'>Todo-APP</h1> */}
+    <header>Todo-APP</header>
     <div className="AddTodo">
       <input
       type="text"
-      placeholder="Add your new Todo"
+      placeholder="Add your new Todo!"
       value={todoItem.title}
       onChange={(e) => setTodoItem({title: e.target.value})}
       onKeyPress={onEnterKeyPress}
       />
-      <button onClick={onButtonClick}>ADD</button>
+      <button onClick={onButtonClick}>add</button>
     </div>
+    </>
   );
 };
 

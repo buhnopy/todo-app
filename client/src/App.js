@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react';
 import AddTodo from './components/AddTodo';
 import Todo from './components/Todo';
+import './components/styles/App.scss';
+// import './components/styles/todo.css'
 
 const App = () => {
   const [todoItems, setTodoItems] = useState([
@@ -33,17 +35,26 @@ const App = () => {
     setTodoItems([...todoItems, newItem]); // setTodoItems(todoItems.concat(newItem))
   };
 
+  // 전체 Todo 리스트(todoItems)는 App 컴포넌트에서 관리하고 있으므로
+  // deleteItem() 함수는 App 컴포넌트에 작성해야 함
   const deleteItem = (targetItem) => {
-    setTodoItems(todoItems.filter((item) => item.id !== targetItem.id))
+    let newTodoItems = todoItems.filter((item) => item.id !== targetItem.id);
+    setTodoItems(newTodoItems);
   };
 
   return (
     <div className="App">
+      <header>😀Sean Todo App</header>
       <AddTodo addItem={addItem} />
-      {todoItems.map((item) => {
-        // console.log(item); // {id: 1, title: 'My Todo1', done: false}
-        return <Todo key={item.id} item={item} deleteItem={deleteItem} />;
-      })}
+      <div className="left-todos">🚀 {todoItems.length} Todos</div>
+      {todoItems.length > 0 ? (
+        todoItems.map((item) => {
+          // console.log(item); // {id: 1, title: 'My Todo1', done: false}
+          return <Todo key={item.id} item={item} deleteItem={deleteItem} />;
+        })
+      ) : (
+        <p className="empty-todos">Todo를 추가해주세요🔥</p>
+      )}
     </div>
   );
 };
