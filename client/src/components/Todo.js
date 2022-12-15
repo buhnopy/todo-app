@@ -2,9 +2,10 @@ import { useState, useRef } from 'react';
 import './styles/Todo.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 
-const Todo = ({ item, deleteItem }) => {
+const Todo = ({ item, deleteItem, updateItem }) => {
   // console.log(item); // { id: 1, title: 'todo1', done: false, }
   const { id, title, done } = item;
   const [todoItem, setTodoItem] = useState(item);
@@ -25,7 +26,7 @@ const Todo = ({ item, deleteItem }) => {
       ...rest,
     });
   };
-
+  
   // title input 클릭시 (title를 수정하겠다!!) : readOnly state를 false로 변경
   const offReadOnlyMode = () => {
     setReadOnly(false);
@@ -35,19 +36,23 @@ const Todo = ({ item, deleteItem }) => {
   const enterKeyEventHandler = (e) => {
     if (e.key === 'Enter') {
       setReadOnly(true);
+      updateItem(todoItem);
     }
   };
 
-  // checkbox 업데이트
+   // checkbox 업데이트
   // done: true -> false, fasle, -> true
   const checkboxEventHandler = (e) => {
-    const { done, ...rest } = todoItem;
-    setTodoItem({
+    // rest: id, title 정보
+    const { done, ...rest } = todoItem; // { id: 1, title: 'todo1', done: false, }
+    const updatedItem = {
       done: e.target.checked,
       ...rest,
-    });
+    };
+    setTodoItem(updatedItem);
+    updateItem(updatedItem); // 수정2(체크박스 변경시 저장) -> 변경될 대상
   };
-
+  
   return (
     <div className="Todo">
       <input
